@@ -8,6 +8,7 @@ const userRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const chatRoomRouter = require('./controllers/chatroom')
 const {userExtractor} = require('./utils/middleware')
+const cors = require('cors')
 
 try{
   mongoose.connect(MONGODB_URI)
@@ -15,13 +16,15 @@ try{
 }catch{
   console.log('Error connecting to db');
 }
-
 app.use(express.json())
+
 app.use(userExtractor)
+app.use(cors())
 
 app.use('/login',loginRouter)
 app.use('/chatroom',chatRoomRouter)
 
+app.use('/api/users',userRouter)
 
 app.get('/', (req, res) => {
   if(req.user){
@@ -30,6 +33,5 @@ app.get('/', (req, res) => {
   return res.json('Login first')
 })
 
-app.use('/api/users',userRouter)
 
 module.exports = httpServer

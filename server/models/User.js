@@ -1,11 +1,14 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const {SECRET} = require('../utils/config')
+var uniqueValidator = require('mongoose-unique-validator');
+
 
 const schema = new mongoose.Schema({
-  username: {
+  email: {
     type: String,
     required: true,
+    unique:true
   },
   name: {
     type: String,
@@ -21,6 +24,8 @@ const schema = new mongoose.Schema({
     default: false,
   },
 })
+
+schema.plugin(uniqueValidator,{ type: 'mongoose-unique-validator' })
 
 schema.methods.generateVerificationToken = function generateVerificationToken() {
   const token = jwt.sign({id:this.id},SECRET,{expiresIn:'7d'})

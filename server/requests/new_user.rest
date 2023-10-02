@@ -2,7 +2,7 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "username":"ajay",
+  "email":"ajay@gmail.com",
   "name":"Ajay",
   "password":"weak password"
 }
@@ -13,7 +13,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "username":"ajay",
+  "email":"ajay@gmail.com",
   "password":"weak password"
 }
 
