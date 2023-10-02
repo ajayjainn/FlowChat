@@ -5,6 +5,8 @@ const app = express()
 const httpServer = http.createServer(app)
 const {MONGODB_URI} = require('./utils/config')
 const userRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
+const chatRoomRouter = require('./controllers/chatroom')
 const {userExtractor} = require('./utils/middleware')
 
 try{
@@ -16,6 +18,10 @@ try{
 
 app.use(express.json())
 app.use(userExtractor)
+
+app.use('/login',loginRouter)
+app.use('/chatroom',chatRoomRouter)
+
 
 app.get('/', (req, res) => {
   if(req.user){
