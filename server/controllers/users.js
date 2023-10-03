@@ -2,6 +2,8 @@ const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
 
+const {sendVerificationMail} = require('../utils/email')
+
 router.get('/all', async (req, res) => {
   const users = await User.find({})
   res.json(users)
@@ -21,10 +23,10 @@ router.post('/', async (req, res) => {
     return res.status(401).send('Provide all the fields.')
   }
 
-  if(cred.password.length<8){
+  if (cred.password.length < 8) {
     return res.status(400).send('Password must be atleast 8 letters')
   }
-  
+
   const pHash = await bcrypt.hash(cred.password, 10)
 
   try {
@@ -33,12 +35,17 @@ router.post('/', async (req, res) => {
       passwordHash: pHash,
       name: cred.name
     }).save()
+    sendVerificationMail(newUser)
     return res.json({ user: newUser, token: newUser.generateVerificationToken() })
 
   } catch (err) {
-    if(err.errors.email.kind==='mongoose-unique-validator'){
-      return res.status(400).send('Username already in use')
+    if (err.errors) {
+      if(err.errors.email === 'mongoose-unique-validator'){
+        if(err.errors.email.king === 'mongoose-unique-validator')
+        return res.status(400).send('Username already in use')
+      }
     }
+    console.log(err);
     return res.status(400).send('Bad request')
   }
 

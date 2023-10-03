@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const {SECRET} = require('../utils/config')
 var uniqueValidator = require('mongoose-unique-validator');
-
+const sharp = require('sharp')
+const path = require('path')
 
 const schema = new mongoose.Schema({
   email: {
@@ -18,11 +19,20 @@ const schema = new mongoose.Schema({
     type:String,
     required:true
   },
-  avatarPhoto: String,
+  avatarPhoto: {
+    type:Buffer,
+  },
   isVerified: {
     type: Boolean,
     default: false,
   },
+})
+
+schema.pre('save',async function(){
+  this.avatarPhoto =await sharp(path.join(__dirname,'../public/avatar/default.png'))
+    .resize(120,120)
+    .png()
+    .toBuffer()
 })
 
 schema.plugin(uniqueValidator,{ type: 'mongoose-unique-validator' })

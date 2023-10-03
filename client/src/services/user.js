@@ -17,4 +17,21 @@ const fetchUser = async (token)=>{
   return res
 }
 
-export {register,login,fetchUser}
+const updateAvatar = async(token,formData)=>{
+  const res = await axios.post(
+    'http://localhost:3000/profile/avatar',
+    formData,
+    {headers:{
+      'accept': 'application/json',
+      'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+      'authorization': `Bearer ${token}`
+    }}
+  )
+  return res
+}
+
+const sendVerificationLink = async(token)=>{
+  await axios.get(url+'/verify',{headers:{authorization:`Bearer ${token}`}})
+}
+
+export {register,login,fetchUser,updateAvatar,sendVerificationLink}

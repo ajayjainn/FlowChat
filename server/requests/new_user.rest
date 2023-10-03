@@ -13,9 +13,15 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "email":"ajay@gmail.com",
-  "password":"weak password"
+  "email":"ajayjain@gmail.com",
+  "password":"ajay"
 }
 
 ###
+
+GET  http://localhost:3000/verify
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWMwOWFmMWQwMmRhZTcxMDI1ZWU4NCIsImlhdCI6MTY5NjMzNjMwNCwiZXhwIjoxNjk2OTQxMTA0fQ.MW9BYasw41tq9frTG36OdID_ANgi-XT_7CJaL3pZPF8
+
+
+
 

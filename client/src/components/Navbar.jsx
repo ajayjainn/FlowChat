@@ -19,14 +19,14 @@ function BasicExample() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand className='' href="/">Chat App</Navbar.Brand>
+        <Navbar.Brand className=''><Link style={{textDecoration:'none',color:'inherit'}} to='/'>Chat App</Link></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
 
         {user ?
         <>
           <Navbar.Text>
-            Signed in as: <a href="/wip">{user.name}</a>
+            Signed in as: <Link to="/profile">{ user.name[0].toUpperCase() + user.name.slice(1) }</Link>
           <Button onClick={handleLogout} className='ms-3' variant="success">Logout</Button> 
           </Navbar.Text>
         </>:

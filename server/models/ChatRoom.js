@@ -10,13 +10,17 @@ const schema = new mongoose.Schema({
   users:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
+  }],
+  messages:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Message'
   }]
 })
 
 schema.set('toJSON',{
   virtuals: true,
   versionKey:false,
-  transform:(doc,ret)=>{
+  transform:(_,ret)=>{
     delete ret._id
   }
 })

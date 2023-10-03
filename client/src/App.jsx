@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchUser } from './services/user';
 import { setUser } from './reducers/authReducer';
+import Chat from './pages/Chat/Chat.jsx';
+import Profile from './pages/Profile';
 
 const PrivateRoute = ({ redirectPath = '/login' }) => {
   const user = useSelector(state => state.auth.user)
@@ -27,7 +29,6 @@ function App() {
 
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
-
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -60,6 +61,7 @@ function App() {
   return (
     <>
       <Navbar />
+      
       <MessageAlert />
       <Routes>
 
@@ -70,6 +72,8 @@ function App() {
 
         <Route element={<PrivateRoute redirectPath='/login' />}>
           <Route path='/' element={<Home />} />
+          <Route path='/chat' element={<Chat />} />
+          <Route path='/profile' element={<Profile />} />
         </Route>
       </Routes>
     </>
