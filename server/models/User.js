@@ -11,6 +11,13 @@ const schema = new mongoose.Schema({
     required: true,
     unique:true
   },
+  socketId : {
+    tupe : String
+  } ,
+  chatRooms : [{
+    type : mongoose.Schema.Types.ObjectId ,
+    ref : 'ChatRoom'
+  }] ,
   name: {
     type: String,
     required: true,

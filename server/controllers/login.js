@@ -17,9 +17,12 @@ router.post('/', async (req, res) => {
 
   const result = await bcrypt.compare(password, user.passwordHash);
   if (result) {
+   
     return res.json({ user: user, token: user.generateVerificationToken() })
+
   }
   return res.status(401).send('Wrong password')
 })
+
 
 module.exports = router
