@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import {login} from '../services/user.js'
 import { setUser } from '../reducers/authReducer.js';
-import { setMessage } from '../reducers/messageReducer.js';
+import { setAlert } from '../reducers/alertReducer.js';
 
 function Login() {
 
@@ -22,8 +22,8 @@ function Login() {
       dispatch(setUser(res.data.user))
       navigate('/')
     }catch (err){
-      dispatch(setMessage({type:"error",value:err.response.data}))
-      setTimeout(()=>dispatch(setMessage({type:null,value:null})),3000)
+      dispatch(setAlert({type:"danger",value:err.response.data}))
+      setTimeout(()=>dispatch(setAlert({type:null,value:null})),3000)
     }
   }
 

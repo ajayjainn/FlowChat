@@ -2,21 +2,21 @@ import Alert from 'react-bootstrap/Alert';
 
 import {useSelector} from 'react-redux'
 
-function MessageAlert() {
+function ShowAlert() {
 
-  const message = useSelector(state=>state.message)
+  const alertMessage = useSelector(state=>state.alert)
 
-  if(!message.value){
+  if(!alertMessage.value){
     return null
   }
 
   return (
     <>
-      <Alert dismissible className='container mt-2 w-50' variant={message.type}>
-          {message.value}
+      <Alert dismissible className='container mt-2 w-50' variant={alertMessage.type}>
+          {alertMessage.value}
       </Alert>
     </>
   );
 }
 
-export default MessageAlert;
+export default ShowAlert;

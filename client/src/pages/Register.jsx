@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../services/user';
 
-import {setMessage} from '../reducers/messageReducer.js'
+import {setAlert} from '../reducers/alertReducer.js'
 import { useDispatch } from 'react-redux';
 import {setUser} from '../reducers/authReducer.js'
 
@@ -23,12 +23,12 @@ function Register() {
       )
       localStorage.setItem('token',res.data.token)
       dispatch(setUser(res.data.user))
-      dispatch(setMessage({type:"success",value:"Account created successfully"}))
-      setTimeout(()=>dispatch(setMessage({type:null,value:null})),3000)
+      dispatch(setAlert({type:"success",value:"Account created successfully"}))
+      setTimeout(()=>dispatch(setAlert({type:null,value:null})),3000)
       navigate('/')
     }catch(err){
-      dispatch(setMessage({type:"danger",value:err.response.data}))
-      setTimeout(()=>dispatch(setMessage({type:null,value:null})),3000)
+      dispatch(setAlert({type:"danger",value:err.response.data}))
+      setTimeout(()=>dispatch(setAlert({type:null,value:null})),3000)
     }
   }
 

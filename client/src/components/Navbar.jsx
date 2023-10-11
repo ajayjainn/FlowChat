@@ -17,7 +17,7 @@ function BasicExample() {
   }
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-secondary">
       <Container>
         <Navbar.Brand className=''><Link style={{textDecoration:'none',color:'inherit'}} to='/'>Chat App</Link></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

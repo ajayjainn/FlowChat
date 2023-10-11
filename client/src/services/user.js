@@ -12,9 +12,14 @@ const login = async (email,password)=>{
   return res
 }
 
-const fetchUser = async (token)=>{
+const fetchCurrentUser = async (token)=>{
   const res = await axios.get(url+'/api/users',{headers:{authorization:`Bearer ${token}`}})
   return res
+} 
+
+const fetchUsers = async (token)=>{
+  const res = await axios.get(url+'/api/users/all',{headers:{authorization:`Bearer ${token}`}})
+  return res.data
 }
 
 const updateAvatar = async(token,formData)=>{
@@ -34,4 +39,4 @@ const sendVerificationLink = async(token)=>{
   await axios.get(url+'/verify',{headers:{authorization:`Bearer ${token}`}})
 }
 
-export {register,login,fetchUser,updateAvatar,sendVerificationLink}
+export {register,login,fetchCurrentUser,fetchUsers,updateAvatar,sendVerificationLink}

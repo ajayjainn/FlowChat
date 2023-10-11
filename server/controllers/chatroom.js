@@ -13,6 +13,7 @@ router.get('/chatrooms', userExtractor, async (req, res) => {
     });
     res.json(req.user.chatRooms)
   } catch (err) {
+    return res.status(500).send('Error')
   }
 
 })

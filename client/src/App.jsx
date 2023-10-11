@@ -10,9 +10,9 @@ import Home from './pages/Home';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchUser } from './services/user';
+import { fetchCurrentUser } from './services/user';
 import { setUser } from './reducers/authReducer';
-import Chat from './pages/Chat/Chat.jsx';
+import Chat from './pages/Home.jsx';
 import Profile from './pages/Profile';
 
 const PrivateRoute = ({ redirectPath = '/login' }) => {
@@ -23,19 +23,18 @@ const PrivateRoute = ({ redirectPath = '/login' }) => {
   return <Outlet />
 }
 
-
-
 function App() {
 
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
+
 
   useEffect(() => {
     const verifyUser = async () => {
       const token = localStorage.getItem('token')
       if (token) {
         try {
-          const res = await fetchUser(token)
+          const res = await fetchCurrentUser(token)
           dispatch(setUser(res.data))
         } catch (err) {
           if (err.response.status === 401) {

@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
   } catch (err) {
     if (err.errors) {
       if(err.errors.email === 'mongoose-unique-validator'){
-        if(err.errors.email.king === 'mongoose-unique-validator')
+        if(err.errors.email.kind === 'mongoose-unique-validator')
         return res.status(400).send('Username already in use')
       }
     }

@@ -1,0 +1,41 @@
+input[type='file'].hidden
+{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    font-size: 50px;
+    cursor: pointer;
+    opacity: 0;
+    -moz-opacity: 0;
+    filter: Alpha(Opacity=0);
+}
+
+
+img.fileDownload
+{
+    height: 99px;
+    width: 99px;
+    padding: 0;
+    display: inline-block; 
+    vertical-align: middle;
+    margin: 0 4px 0 0;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+div.hiddenFileInputContainter
+{
+    position: relative;
+    display: block;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    cursor: pointer;
+}
+

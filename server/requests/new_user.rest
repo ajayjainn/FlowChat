@@ -9,13 +9,10 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/login
+POST http://localhost:3000/room/join/DfE0AWdQ4
 Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MWM1MTIxODNlYmU4NmMxOGE5ZDJlNyIsImlhdCI6MTY5NjM1NDU5NCwiZXhwIjoxNjk2OTU5Mzk0fQ.OPSHXaSeZwEunw19XPUekU9wrP3k5oC_99uV0aQlDLo
 
-{
-  "email":"ajayjain@gmail.com",
-  "password":"ajay"
-}
 
 ###
 
