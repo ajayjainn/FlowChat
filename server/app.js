@@ -30,10 +30,11 @@ try{
 app.use(express.json())
 
 app.use(userExtractor)
+
 app.use(cors())
 
 app.use('/login',loginRouter)
-app.use('/room',chatRoomRouter)
+app.use('/api/rooms',chatRoomRouter)
 
 app.use('/api/users',userRouter)
 app.use('/verify',verifyRouter)
@@ -48,38 +49,50 @@ app.get('/', (req, res) => {
 
 
 io.on('connection',(socket)=>{
+  console.log(`New connection`,socket.id)
+
+  let user = null
   const token = socket.handshake.auth
   if(!token){
+    console.log('no toekm')
     return socket.disconnect()
   }
-  jwt.verify(token , SECRET, async (err,decoded)=>{
+  jwt.verify(token.token , SECRET, async (err,decoded)=>{
     if(err){
       return socket.disconnect()
     }
-    const user = await User.findByIdAndUpdate(decoded.id , {
+    user = await User.findByIdAndUpdate(decoded.id , {
       socketId : socket.id
-    })
+    },{new:true})
   })
-  
   console.log('A user connected')
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
   })
 
-  socket.on('message', async (msg , to , chatRoomCode)=>{
+  socket.on('message', async (msg , to , chatRoomId)=>{
       const message = new Message({
           text : msg ,
           from : user._id ,
-          chatRoomId : chatRoomCode 
+          chatRoomId : chatRoomId 
       })
+      
       await message.save()
 
-      const chatRoom = await ChatRoom.findOne({code : chatRoomCode})
-      const reciever = await User.findOne({_id : to})
-      chatRoom.messages.concact(message._id)
+      const chatRoom = await ChatRoom.findById(chatRoomId)
+      const reciever = await User.findById(to)
+      chatRoom.messages = chatRoom.messages.concat(message._id)
+      chatRoom.save()
 
-      io.to(reciever.socketId).emit('SendMessage' , msg)  
+      console.log('rec',reciever.socketId)
+
+      io.to(user.socketId).emit('SendMessage',message);
+      
+      if(reciever.socketId){
+        io.to(reciever.socketId).emit('SendMessage',message); 
+      }
+      
   })
 
 })

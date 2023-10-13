@@ -12,12 +12,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchCurrentUser } from './services/user';
 import { setUser } from './reducers/authReducer';
-import Chat from './pages/Home.jsx';
 import Profile from './pages/Profile';
 
 const PrivateRoute = ({ redirectPath = '/login' }) => {
   const user = useSelector(state => state.auth.user)
-  if ((redirectPath=='/login')? !user:user) {
+  if ((redirectPath == '/login') ? !user : user) {
     return <Navigate to={redirectPath} replace />
   }
   return <Outlet />
@@ -27,7 +26,7 @@ function App() {
 
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
-
+  console.log('heyd')
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -60,7 +59,7 @@ function App() {
   return (
     <>
       <Navbar />
-      
+
       <MessageAlert />
       <Routes>
 
@@ -70,8 +69,8 @@ function App() {
         </Route>
 
         <Route element={<PrivateRoute redirectPath='/login' />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/chat' element={<Chat />} />
+
+            <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
         </Route>
       </Routes>

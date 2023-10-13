@@ -1,17 +1,26 @@
 const router = require('express').Router()
 const ChatRoom = require('../models/ChatRoom')
-const { userExtractor } = require('../utils/middleware')
+const User = require('../models/User')
 
-router.get('/chatrooms', userExtractor, async (req, res) => {
+router.get('/', async (req, res) => {
+
   if (!req.user) {
     return res.status(401).send('No bearer token')
   }
+
   try {
-    await req.user.populate('chatRooms')
-    req.user.chatRooms.forEach(async (chatRoom) => {
-      await chatRoom.populate('messages')
-    });
+    await req.user.populate({
+      path: 'chatRooms',
+      populate: [{
+        path: 'users'
+      },{
+        path:'messages'
+      }
+    ],
+    })
+
     res.json(req.user.chatRooms)
+
   } catch (err) {
     return res.status(500).send('Error')
   }
@@ -22,9 +31,28 @@ router.post('/', async (req, res) => {
   if (!req.user) {
     return res.status(401).send('No bearer token')
   }
-  const chatroom = await new ChatRoom({ users: [req.user._id.toString()] }).save()
+
+  // const alreadyExist = await ChatRoom.findOne({users : [req.user._id , req.body.receiver].sort()})
+  // if(alreadyExist){
+  //   return res.status(400).send({
+  //     error : 'ChatRoom Already Exists.'
+  //   })
+  // }
+
+  const chatroom = await new ChatRoom({ users: [req.user._id.toString(), req.body.receiver].sort() }).save()
+
+  req.user.chatRooms = req.user.chatRooms.concat(chatroom._id)
+
+  await req.user.save()
+
+  const receiver = await User.findById(req.body.receiver)
+
+  receiver.chatRooms = receiver.chatRooms.concat(chatroom._id)
+
+  await receiver.save()
+
   if (chatroom) {
-    return res.json(chatroom)
+    return res.json({ chatroom })
   }
   res.status(404).end()
 })

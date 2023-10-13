@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './Home.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {setUserChats} from '../reducers/chatroomReducer.js'
 import chatRoomService from '../services/chatrooms.js'
 import {fetchUsers} from '../services/user.js'
@@ -9,14 +9,15 @@ import Sidebar from '../components/Sidebar'
 import MessagesList from '../components/MessagesList'
 import ChatInput from '../components/ChatInput'
 
-
 const Home = () => {
 
   const dispatch = useDispatch()
 
+
+
   useEffect(()=>{
     const fetchData = async ()=>{
-      const userChats = await chatRoomService.get()
+      const userChats = await chatRoomService.get(localStorage.getItem('token'))
       const users = await fetchUsers(localStorage.getItem('token'))
       dispatch(setUsers(users))
       dispatch(setUserChats(userChats))
@@ -27,7 +28,7 @@ const Home = () => {
   return (
     <>
       <div style={{height:'90vh'}} className="chat">
-        <Sidebar/>      
+        <Sidebar />      
         <div className="chat__main">
           <MessagesList />
           <ChatInput />

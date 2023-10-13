@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
     unique:true
   },
   socketId : {
-    tupe : String
+    type : String
   } ,
   chatRooms : [{
     type : mongoose.Schema.Types.ObjectId ,
