@@ -92,7 +92,7 @@ button:disabled {
     color: white;
     background: #333744;
     width: 225px;
-    overflow-y: scroll
+    overflow-y: scroll;
 }
 
 /* Chat styles */
@@ -172,6 +172,7 @@ button:disabled {
     font-size: 18px;
     margin-bottom: 4px;
     padding: 12px 24px 0 24px;
+
 }
 
 .users {

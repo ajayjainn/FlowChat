@@ -29,11 +29,10 @@ const Sidebar = () => {
     <>
 
       <div id="sidebar" className="chat__sidebar">
-        <h2 className="room-title">Title</h2>
-        <h3 className="listtitle">Users</h3>
+        <h3 className="listtitle ms-5 mt-3">Users</h3>
 
         <ul onClick={handleOnClick} className="users">
-          {users.map((user) => <li id={user.id} key={users.indexOf(user)}>{user.name}</li>)}
+          {users.map((user) => <li style={{fontSize:'19px',cursor:'pointer',marginBottom:'15px'}} id={user.id} key={users.indexOf(user)}>{user.name}</li>)}
         </ul>
 
         <form onSubmit={newChatRoom} action="">

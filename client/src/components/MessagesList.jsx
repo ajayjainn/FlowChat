@@ -15,6 +15,7 @@ const MessagesList = () => {
 
   socket.on('SendMessage',(msg)=>{
     dispatch(appendMessage(msg))
+    setTimeout(scrollToBottom,0)
   })  
 
   if (!activeChat) {
@@ -24,6 +25,15 @@ const MessagesList = () => {
       </h2>
     )
   }
+
+  const scrollToBottom = ()=>{
+    var element = document.querySelector('#messages');
+    if(element){
+      element.scrollTo({ top: element.scrollHeight+element.offsetHeight + 1000, behavior: 'smooth' })
+    }  
+  }
+
+  setTimeout(scrollToBottom,0)
 
   const senderStyle = {
     textAlign: 'end',
@@ -44,7 +54,7 @@ const MessagesList = () => {
       {activeChat.messages.map(message => {
         const value = dayjs(message.createdAt, "yyyy-MM-dd HH:mm:ss")
         return (
-          <div key={message.id} className="message" style={message.from === currentId ? senderStyle : receiverStyle}>
+          <div id='message' key={message.id} className="message" style={message.from === currentId ? senderStyle : receiverStyle}>
             <span className="message__name">{message.from === currentId ? "You" : getNameFromId(message.from)}</span>
             <span className="message__meta">{value.format('MM/DD/YYYY h:mm a')}</span>
             <p>{message.text}</p>

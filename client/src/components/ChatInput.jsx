@@ -15,7 +15,9 @@ const ChatInput = () => {
     e.preventDefault()
     const receiverId = activeChat.users.find(user=>user.id!=currentId).id
     socket.emit('message',e.target.message.value,receiverId,activeChat.id)
+    e.target.message.value = ''
   }
+
 
 
   return (

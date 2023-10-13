@@ -17,8 +17,13 @@ const chatroomSlice = createSlice({
       }
     },
     appendMessage:(state,action)=>{
-      state.data.find(ch=>ch.id===state.activeChat.id).messages.push(action.payload)
-      state.activeChat.messages.push(action.payload)
+      const chatRoomId = action.payload.chatRoomId
+      console.log(action.payload)
+      state.data.find(ch=>ch.id===chatRoomId).messages.push(action.payload)
+      const activeChatId = state.activeChat.id
+      if(chatRoomId===activeChatId){
+        state.activeChat = state.data.find(ch=>ch.id===activeChatId)
+      }
     }
   }
 })

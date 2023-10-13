@@ -32,23 +32,20 @@ router.post('/', async (req, res) => {
     return res.status(401).send('No bearer token')
   }
 
-  // const alreadyExist = await ChatRoom.findOne({users : [req.user._id , req.body.receiver].sort()})
-  // if(alreadyExist){
-  //   return res.status(400).send({
-  //     error : 'ChatRoom Already Exists.'
-  //   })
-  // }
+  const alreadyExist = await ChatRoom.findOne({users : [req.user._id , req.body.receiver].sort()})
+  if(alreadyExist){
+    return res.status(400).send({
+      error : 'ChatRoom Already Exists.'
+    })
+  }
 
   const chatroom = await new ChatRoom({ users: [req.user._id.toString(), req.body.receiver].sort() }).save()
 
   req.user.chatRooms = req.user.chatRooms.concat(chatroom._id)
-
   await req.user.save()
 
   const receiver = await User.findById(req.body.receiver)
-
   receiver.chatRooms = receiver.chatRooms.concat(chatroom._id)
-
   await receiver.save()
 
   if (chatroom) {

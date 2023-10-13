@@ -1,12 +1,6 @@
 const mongoose = require('mongoose')
-const shortid = require('shortid')
 
 const schema = new mongoose.Schema({
-  code:{
-    type:String,
-    default:shortid.generate,
-    required:true
-  },
   users:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
