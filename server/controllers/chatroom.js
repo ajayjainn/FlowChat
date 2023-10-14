@@ -11,17 +11,21 @@ router.get('/', async (req, res) => {
   try {
     await req.user.populate({
       path: 'chatRooms',
-      populate: [{
-        path: 'users'
-      },{
-        path:'messages'
-      }
-    ],
+      populate: [
+        {
+          path: 'users'
+        },
+        {
+          path:'messages',
+          populate: [{path:'file'}]
+        }
+      ],
     })
 
     res.json(req.user.chatRooms)
 
   } catch (err) {
+    console.log(err)
     return res.status(500).send('Error')
   }
 
@@ -32,10 +36,10 @@ router.post('/', async (req, res) => {
     return res.status(401).send('No bearer token')
   }
 
-  const alreadyExist = await ChatRoom.findOne({users : [req.user._id , req.body.receiver].sort()})
-  if(alreadyExist){
+  const alreadyExist = await ChatRoom.findOne({ users: [req.user._id, req.body.receiver].sort() })
+  if (alreadyExist) {
     return res.status(400).send({
-      error : 'ChatRoom Already Exists.'
+      error: 'ChatRoom Already Exists.'
     })
   }
 

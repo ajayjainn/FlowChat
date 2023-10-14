@@ -66,7 +66,7 @@ const Profile = () => {
             <Form.Control
               disabled
               placeholder={user.email}
-              aria-label="Username"
+              aria-label="Email"
               aria-describedby="basic-addon1"
             />
 

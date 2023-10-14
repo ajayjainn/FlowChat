@@ -37,7 +37,7 @@ const Sidebar = () => {
 
         <form onSubmit={newChatRoom} action="">
           <input type="text" name="email" placeholder="Email" />
-          <button type="submit">Submit</button>
+          <button type="submit">Create new Chat</button>
         </form>
 
       </div>

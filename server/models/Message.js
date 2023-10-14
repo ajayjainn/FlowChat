@@ -3,7 +3,12 @@ const mongoose = require('mongoose')
 const schema = new mongoose.Schema({
   text: {
     type: String,
-    required: true
+    required: ()=>this.file
+  },
+  file:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'File',
+    required:()=>this.text
   },
   from: {
     type: mongoose.Schema.Types.ObjectId,

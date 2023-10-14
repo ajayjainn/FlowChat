@@ -1,6 +1,12 @@
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('./config')
 const User = require('../models/User')
+const S3ClientManager = require('./S3ClientManager')
+
+function s3Instance(req, res, next) {
+  req.s3 = S3ClientManager.getInstance()
+  next()
+}
 
 const userExtractor = async (req,res,next)=>{
   const token = req.headers['authorization']
@@ -19,5 +25,6 @@ const userExtractor = async (req,res,next)=>{
 }
 
 module.exports = {
-  userExtractor
+  userExtractor,
+  s3Instance
 }
