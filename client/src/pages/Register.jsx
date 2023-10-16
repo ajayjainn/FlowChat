@@ -15,7 +15,7 @@ function Register() {
     event.preventDefault()
     const formData = new FormData(event.target)
 
-    try{
+    try {
       const res = await register(
         formData.get('email'),
         formData.get('name'),
@@ -23,11 +23,11 @@ function Register() {
       )
       localStorage.setItem('token',res.data.token)
       dispatch(setUser(res.data.user))
-      dispatch(setAlert({type:"success",value:"Account created successfully"}))
+      dispatch(setAlert({type:'success',value:'Account created successfully'}))
       setTimeout(()=>dispatch(setAlert({type:null,value:null})),3000)
       navigate('/')
-    }catch(err){
-      dispatch(setAlert({type:"danger",value:err.response.data}))
+    } catch (err){
+      dispatch(setAlert({type:'danger',value:err.response.data}))
       setTimeout(()=>dispatch(setAlert({type:null,value:null})),3000)
     }
   }
@@ -53,7 +53,7 @@ function Register() {
         Register
       </Button>
       <Button className='ms-3' variant="secondary">
-        <Link style={{ textDecoration: "none", color: "white" }} to='/login'>Login</Link>
+        <Link style={{ textDecoration: 'none', color: 'white' }} to='/login'>Login</Link>
       </Button>
     </Form>
   );

@@ -8,15 +8,15 @@ function s3Instance(req, res, next) {
   next()
 }
 
-const userExtractor = async (req,res,next)=>{
+const userExtractor = async (req, res, next) => {
   const token = req.headers['authorization']
-  if(!token){
+  if (!token) {
     req.user = null
     return next()
   }
-  
-  jwt.verify(token.split(' ')[1], SECRET, async (err,decoded)=>{
-    if(err){
+
+  jwt.verify(token.split(' ')[1], SECRET, async (err, decoded) => {
+    if (err) {
       return res.status(401).json(err.message)
     }
     req.user = await User.findById(decoded.id)
@@ -26,5 +26,5 @@ const userExtractor = async (req,res,next)=>{
 
 module.exports = {
   userExtractor,
-  s3Instance
+  s3Instance,
 }

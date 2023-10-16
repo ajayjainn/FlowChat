@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import socket from '../socket.js'
-import { appendMessage } from "../reducers/chatroomReducer.js"
+import { appendMessage } from '../reducers/chatroomReducer.js'
 import dayjs from 'dayjs'
 import './MessageList.css'
 
@@ -12,6 +12,16 @@ const MessagesList = () => {
 
   const dispatch = useDispatch()
 
+  
+  const scrollToBottom = () => {
+    var element = document.querySelector('#messages');
+    if (element) {
+      element.scrollTo({ top: element.scrollHeight, behavior: 'smooth' })
+    }
+  }
+
+  setTimeout(scrollToBottom, 0)
+
   socket.off('SendMessage')
 
   socket.on('SendMessage', (msg) => {
@@ -21,20 +31,21 @@ const MessagesList = () => {
 
   if (!activeChat) {
     return (
-      <h2>
-        No active chat
+      <h2 className="text-center mt-3">
+        Select or start a conversation
       </h2>
     )
   }
 
-  const scrollToBottom = () => {
-    var element = document.querySelector('#messages');
-    if (element) {
-      element.scrollTo({ top: element.scrollHeight + element.offsetHeight + 1000, behavior: 'smooth' })
-    }
+  if (activeChat.messages.length === 0) {
+    return (
+      <div id="messages" className="chat__messages">
+        <h2 className="text-center mt-3">
+          This is the beginning of your epic conversation!
+        </h2>
+      </div>
+    )
   }
-
-  setTimeout(scrollToBottom, 0)
 
   const senderStyle = {
     textAlign: 'end',
@@ -48,7 +59,6 @@ const MessagesList = () => {
     width: '100%',
     height: 'auto',
     display: 'inline-block',
-
   }
 
   const getNameFromId = (id) => {
@@ -59,16 +69,16 @@ const MessagesList = () => {
     <div id="messages" className="chat__messages">
 
       {activeChat.messages.map(message => {
-        const value = dayjs(message.createdAt, "yyyy-MM-dd HH:mm:ss")
+        const value = dayjs(message.createdAt, 'yyyy-MMMM-dd HH:mm:ss')
         return (
           <div id='message' key={message.id} className="message" style={message.from === currentId ? senderStyle : receiverStyle}>
-            <span className="message__name">{message.from === currentId ? "You" : getNameFromId(message.from)}</span>
-            <span className="message__meta">{value.format('MM/DD/YYYY h:mm a')}</span>
+            <span className="message__name">{message.from === currentId ? 'You' : getNameFromId(message.from)}</span>
+            <span className="message__meta">{value.format('MMMM D, YYYY')}</span>
 
             {message.text ?
               <p>{message.text}</p>
               :
-              <div className="container">
+              <div id={message.from === currentId ? 'send' : 'receive'} className="imagecontainer">
                 <a download={message.file.name} href={message.file.tempUrl}>
                   <img style={imageStyle} src={message.file.tempUrl} alt="Avatar" className="image" />
                   <div className="middle">

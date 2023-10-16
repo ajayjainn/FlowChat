@@ -16,5 +16,13 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react/prop-type': 'off',
+    'react/prop-types': 'off',
+    'no-unused-vars': 'off',
+    'no-console': 0,
+    'eqeqeq': 'error',
+    'quotes': ['error', 'single', { 'allowTemplateLiterals': true }],
+    'no-multiple-empty-lines':'warn',
+    'keyword-spacing':'warn'
   },
 }

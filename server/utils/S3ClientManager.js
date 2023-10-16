@@ -1,28 +1,38 @@
-const { PutObjectCommand, S3Client, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
-const {AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,S3_BUCKET,S3_REGION} = require('../utils/config')
+const {
+  PutObjectCommand,
+  S3Client,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require('@aws-sdk/client-s3')
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
+const {
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  S3_BUCKET,
+  S3_REGION,
+} = require('../utils/config')
 
 class S3ClientManager {
   constructor() {
-    const accessKeyId = AWS_ACCESS_KEY_ID;
-    const secretAccessKey = AWS_SECRET_ACCESS_KEY;
-    const region = S3_REGION;
-    this.Bucket = S3_BUCKET;
+    const accessKeyId = AWS_ACCESS_KEY_ID
+    const secretAccessKey = AWS_SECRET_ACCESS_KEY
+    const region = S3_REGION
+    this.Bucket = S3_BUCKET
 
     this.client = new S3Client({
       credentials: {
         accessKeyId,
-        secretAccessKey
+        secretAccessKey,
       },
-      region
+      region,
     })
   }
 
   static getInstance() {
     if (!S3ClientManager.instance) {
-      S3ClientManager.instance = new S3ClientManager();
+      S3ClientManager.instance = new S3ClientManager()
     }
-    return S3ClientManager.instance;
+    return S3ClientManager.instance
   }
 
   async writeFile(file) {
@@ -37,12 +47,12 @@ class S3ClientManager {
       Key: fileName,
       Body: file.buffer,
       ContentType: file.mimeType,
-      ContentDisposition: `attachment; filename=${fileName}`
-    };
+      ContentDisposition: `attachment; filename=${fileName}`,
+    }
 
-    const putCommand = new PutObjectCommand(params);
+    const putCommand = new PutObjectCommand(params)
 
-    await this.client.send(putCommand);
+    await this.client.send(putCommand)
 
     return fileName
   }
@@ -53,7 +63,7 @@ class S3ClientManager {
     }
     const getCommand = new GetObjectCommand({
       Bucket: this.Bucket,
-      Key: fileName
+      Key: fileName,
     })
     const file = await this.client.send(getCommand)
     return file
@@ -66,7 +76,7 @@ class S3ClientManager {
 
     const deleteCommand = new DeleteObjectCommand({
       Bucket: this.Bucket,
-      Key: fileName
+      Key: fileName,
     })
 
     await this.client.send(deleteCommand)
@@ -79,19 +89,22 @@ class S3ClientManager {
 
     const params = {
       Bucket: this.Bucket,
-      Key: fileName
+      Key: fileName,
     }
 
-    const getCommand = new GetObjectCommand(params);
+    const getCommand = new GetObjectCommand(params)
 
-    const tempURL = await getSignedUrl(this.client, getCommand, { expiresIn: 7 * 24 * 60 * 60 });
+    const tempURL = await getSignedUrl(this.client, getCommand, {
+      expiresIn: 7 * 24 * 60 * 60,
+    })
 
     return {
       url: tempURL,
-      expirationDate:new Date((new Date().getTime()+ 7*24*60*60*1000)).toISOString()
+      expirationDate: new Date(
+        new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
     }
-    
   }
 }
 
-module.exports = S3ClientManager;
+module.exports = S3ClientManager

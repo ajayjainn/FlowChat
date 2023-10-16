@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer');
-const {EMAIL_KEY, SECRET} = require('../utils/config')
+const nodemailer = require('nodemailer')
+const { EMAIL_KEY, SECRET } = require('../utils/config')
 const jwt = require('jsonwebtoken')
 
 const sendVerificationMail = (newUser) => {
@@ -7,30 +7,31 @@ const sendVerificationMail = (newUser) => {
     service: 'gmail',
     auth: {
       user: 'ajayjain1024@gmail.com',
-      pass: EMAIL_KEY
-    }
-  });
+      pass: EMAIL_KEY,
+    },
+  })
 
-  const token = jwt.sign({id:newUser._id.toString()},SECRET,{expiresIn:'2h'})
+  const token = jwt.sign({ id: newUser._id.toString() }, SECRET, {
+    expiresIn: '2h',
+  })
   const link = `http://localhost:3000/verify/${token}`
 
-  const mailContent = 
-  `Welcome to Flow Chat!\nTo verify your email click on the link below\n <a href="${link}">Link</a>`
+  const mailContent = `Welcome to Flow Chat!\nTo verify your email click on the link below\n <a href="${link}">Link</a>`
 
   const mailDetails = {
     from: 'ajayjain1024@gmail.com',
     to: `${newUser.email}`,
     subject: 'Verification Email',
-    html: mailContent
-  };
+    html: mailContent,
+  }
 
-  mailTransporter.sendMail(mailDetails, function (err, data) {
+  mailTransporter.sendMail(mailDetails, function (err) {
     if (err) {
-      console.log('Error Occurs',err);
+      console.log('Error Occurs', err)
     } else {
-      console.log('Email sent successfully');
+      console.log('Email sent successfully')
     }
-  });
+  })
 }
 
-module.exports = {sendVerificationMail}
+module.exports = { sendVerificationMail }

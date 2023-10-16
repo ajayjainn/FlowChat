@@ -15,14 +15,14 @@ function Login() {
     e.preventDefault()
     const formdata = new FormData(e.target)
 
-    try{
+    try {
 
       const res = await login(formdata.get('email'),formdata.get('password'))
       localStorage.setItem('token',res.data.token)
       dispatch(setUser(res.data.user))
       navigate('/')
-    }catch (err){
-      dispatch(setAlert({type:"danger",value:err.response.data}))
+    } catch (err){
+      dispatch(setAlert({type:'danger',value:err.response.data}))
       setTimeout(()=>dispatch(setAlert({type:null,value:null})),3000)
     }
   }
@@ -43,7 +43,7 @@ function Login() {
         Login
       </Button>
       <Button className='ms-3' variant="secondary">
-        <Link style={{textDecoration:"none",color:"white"}} to='/register'>Register</Link>
+        <Link style={{textDecoration:'none',color:'white'}} to='/register'>Register</Link>
       </Button>
     </Form>
   );

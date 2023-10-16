@@ -6,7 +6,7 @@ function ShowAlert() {
 
   const alertMessage = useSelector(state=>state.alert)
 
-  if(!alertMessage.value){
+  if (!alertMessage.value){
     return null
   }
 

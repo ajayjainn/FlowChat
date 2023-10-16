@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-const {SECRET} = require('../utils/config')
-var uniqueValidator = require('mongoose-unique-validator');
+const { SECRET } = require('../utils/config')
+var uniqueValidator = require('mongoose-unique-validator')
 const sharp = require('sharp')
 const path = require('path')
 
@@ -9,25 +9,27 @@ const schema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique:true
+    unique: true,
   },
-  socketId : {
-    type : String
-  } ,
-  chatRooms : [{
-    type : mongoose.Schema.Types.ObjectId ,
-    ref : 'ChatRoom'
-  }] ,
+  socketId: {
+    type: String,
+  },
+  chatRooms: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ChatRoom',
+    },
+  ],
   name: {
     type: String,
     required: true,
   },
   passwordHash: {
-    type:String,
-    required:true
+    type: String,
+    required: true,
   },
   avatarPhoto: {
-    type:Buffer,
+    type: Buffer,
   },
   isVerified: {
     type: Boolean,
@@ -35,28 +37,31 @@ const schema = new mongoose.Schema({
   },
 })
 
-schema.pre('save',async function(){
-  this.avatarPhoto =await sharp(path.join(__dirname,'../public/avatar/default.png'))
-    .resize(120,120)
+schema.pre('save', async function () {
+  this.avatarPhoto = await sharp(
+    path.join(__dirname, '../public/avatar/default.png'),
+  )
+    .resize(120, 120)
     .png()
     .toBuffer()
 })
 
-schema.plugin(uniqueValidator,{ type: 'mongoose-unique-validator' })
+schema.plugin(uniqueValidator, { type: 'mongoose-unique-validator' })
 
-schema.methods.generateVerificationToken = function generateVerificationToken() {
-  const token = jwt.sign({id:this.id},SECRET,{expiresIn:'7d'})
-  return token
-}
+schema.methods.generateVerificationToken =
+  function generateVerificationToken() {
+    const token = jwt.sign({ id: this.id }, SECRET, { expiresIn: '7d' })
+    return token
+  }
 
-schema.set('toJSON',{
-  virtuals:true,
-  versionKey:false,
-  transform:(doc,ret)=>{
+schema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: (doc, ret) => {
     delete ret._id
     delete ret.passwordHash
-  }
+  },
 })
 
-const User = mongoose.model('User',schema)
+const User = mongoose.model('User', schema)
 module.exports = User

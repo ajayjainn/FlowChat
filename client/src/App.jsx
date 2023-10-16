@@ -16,7 +16,7 @@ import Profile from './pages/Profile';
 
 const PrivateRoute = ({ redirectPath = '/login' }) => {
   const user = useSelector(state => state.auth.user)
-  if ((redirectPath == '/login') ? !user : user) {
+  if ((redirectPath === '/login') ? !user : user) {
     return <Navigate to={redirectPath} replace />
   }
   return <Outlet />
@@ -45,7 +45,7 @@ function App() {
     }
 
     verifyUser()
-  }, [])
+  }, [dispatch])
 
   if (loading) {
     return (

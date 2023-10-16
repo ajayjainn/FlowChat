@@ -13,8 +13,6 @@ const Home = () => {
 
   const dispatch = useDispatch()
 
-
-
   useEffect(()=>{
     const fetchData = async ()=>{
       const userChats = await chatRoomService.get(localStorage.getItem('token'))
@@ -23,7 +21,7 @@ const Home = () => {
       dispatch(setUserChats(userChats))
     }
     fetchData()
-  },[])
+  },[dispatch])
 
   return (
     <>

@@ -20,10 +20,10 @@ const Profile = () => {
     try {
       const res = await updateAvatar(localStorage.getItem('token'), formData)
       dispatch(setUser(res.data))
-      dispatch(setAlert({ type: "success", value: 'Profile Updated successfully' }))
+      dispatch(setAlert({ type: 'success', value: 'Profile Updated successfully' }))
       setTimeout(() => dispatch(setAlert({ type: null, value: null })), 3000)
     } catch (err) {
-      dispatch(setAlert({ type: "error", value: 'An error occured' }))
+      dispatch(setAlert({ type: 'error', value: 'An error occured' }))
       setTimeout(() => dispatch(setAlert({ type: null, value: null })), 3000)
     }
     document.getElementById('submitbutton').disabled = true
@@ -31,16 +31,16 @@ const Profile = () => {
 
   if (user.avatarPhoto) {
     const b64enc = btoa(String.fromCharCode.apply(null, user.avatarPhoto.data))
-    var datajpg = "data:image/jpg;base64," + b64enc;
+    var datajpg = 'data:image/jpg;base64,' + b64enc;
   }
 
   const verificationLinkHandler = async () => {
     try {
       await sendVerificationLink(localStorage.getItem('token'))
-      dispatch(setAlert({ type: "success", value: 'Verification Link Sent' }))
+      dispatch(setAlert({ type: 'success', value: 'Verification Link Sent' }))
       setTimeout(() => dispatch(setAlert({ type: null, value: null })), 3000)
     } catch (err) {
-      dispatch(setAlert({ type: "error", value: 'Error' }))
+      dispatch(setAlert({ type: 'error', value: 'Error' }))
       setTimeout(() => dispatch(setAlert({ type: null, value: null })), 3000)
     }
   }
@@ -58,7 +58,7 @@ const Profile = () => {
         <form id='imageform' onSubmit={handleSubmit} method="post" encType="multipart/form-data">
           <div className="hiddenFileInputContainter mb-2 mt-3">
             <Image id='image' className='fileDownload' type='file' src={datajpg} roundedCircle />
-            <input onChange={uploadAvatar} className='hidden' accept=".jpg,.jpeg,.png" type="file" name="avatar" />
+            <input onChange={uploadAvatar} className='hidden' accept="image/*" type="file" name="avatar" />
           </div>
 
           <InputGroup style={{ width: '30rem' }} className="mb-3 container">

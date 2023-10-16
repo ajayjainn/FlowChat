@@ -88,10 +88,9 @@ button:disabled {
 }
 
 .chat__sidebar {
-
     color: white;
     background: #333744;
-    width: 225px;
+    width: 500px;
     overflow-y: scroll;
 }
 
@@ -148,15 +147,35 @@ button:disabled {
 
 .compose input {
     border: 1px solid #eeeeee;
+    border-radius: 5px;
     width: 100%;
     padding: 12px;
     margin: 0 16px 0 0;
     flex-grow: 1;
 }
 
+
 .compose button {
     font-size: 14px;
 }
+
+#svg-container
+{
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+#svg-container input{
+    display: none;
+}
+
+#svg-1
+{
+  margin: 0 auto;
+  display: block;
+}
+
 
 /* Chat Sidebar Styles */
 
